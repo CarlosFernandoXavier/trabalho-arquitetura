@@ -11,6 +11,7 @@ Este trabalho consite em uma aplicação Rest que utiliza o swagger como documen
 - Abra o gitbash e digite o comando: git clone https://github.com/CarlosFernandoXavier/trabalho-arquitetura.git
 - Entre dentro do projeto e digite: **./gradlew clean build**
 - Abra o projeto na sua ide e execute o arquivo chamado SistemaApplication
-- Após subir a aplicação, entre nesse link para ter acesso a todos os endpoints disponíveis: http://127.0.0.1:8080/sistema/swagger-ui/index.html
 
+### Link de acesso a aplicação:
+http://127.0.0.1:8080/sistema/swagger-ui/index.html
 
