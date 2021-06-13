@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ListaPrecoRepository extends MongoRepository<ListaPrecoEntity, String> {
 
+    ListaPrecoEntity save(ListaPrecoEntity listaPrecoEntity);
+
+    ListaPrecoEntity getByCodigo(String codigo);
+
 }

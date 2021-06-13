@@ -1,4 +1,4 @@
-package com.unisinos.sistema.model;
+package com.unisinos.sistema.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 @Builder
-public class ItemModel {
+public class ItemResponse {
     private String codigo;
     private String nome;
     private BigDecimal preco;

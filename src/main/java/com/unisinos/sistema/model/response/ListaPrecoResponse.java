@@ -1,6 +1,5 @@
-package com.unisinos.sistema.model;
+package com.unisinos.sistema.model.response;
 
-import com.unisinos.sistema.entity.ItemEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-public class ListaPrecoModel {
+public class ListaPrecoResponse {
     private String id;
     private String codigo;
     private String nome;
     private LocalDateTime dataInicial;
     private LocalDateTime dataFinal;
-    List<ItemModel> itens;
+    List<ItemResponse> itens;
 }

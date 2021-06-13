@@ -1,45 +1,36 @@
 package com.unisinos.sistema.controller;
 
-import com.unisinos.sistema.entity.ItemEntity;
-import com.unisinos.sistema.entity.ListaPrecoEntity;
-import com.unisinos.sistema.model.ListaPrecoModel;
-import com.unisinos.sistema.repository.ListaPrecoRepository;
+import com.unisinos.sistema.config.SwaggerConfig;
+import com.unisinos.sistema.model.request.ListaPrecoRequest;
+import com.unisinos.sistema.model.response.ListaPrecoResponse;
+import com.unisinos.sistema.service.ListaPrecoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
-@RequestMapping("/lista-preco")
+@RequestMapping("/v1/lista-preco")
+@Api(tags = SwaggerConfig.LISTA_PRECO_V1)
 @AllArgsConstructor
 public class ListaPrecoController {
 
-    ListaPrecoRepository listaPrecoRepository;
+    ListaPrecoService listaPrecoService;
 
     @PostMapping("/adicinar")
-    @ResponseStatus(HttpStatus.OK)
-    public void adicionarListaPreco(@RequestBody @NotNull @Valid ListaPrecoModel listaPrecoModel) {
-        var lista = ListaPrecoEntity.builder()
-                .codigo("1234")
-                .nome("Liquida Porto Alegre")
-                .dataInicial(LocalDateTime.now())
-                .dataFinal(LocalDateTime.of(2021, 12, 12, 19, 55))
-                .itens(List.of(ItemEntity.builder()
-                                .codigo("12AC")
-                                .nome("Tênis Nike azul")
-                                .preco(BigDecimal.valueOf(127.56))
-                                .build(),
-                        ItemEntity.builder()
-                                .codigo("12AC")
-                                .nome("Tênis Nike vermelho")
-                                .preco(BigDecimal.valueOf(147.56))
-                                .build()))
-                .build();
-        listaPrecoRepository.save(lista);
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Adicionar lista de preço")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class)})
+
+    public ListaPrecoResponse adicionarListaPreco(@RequestBody @NotNull @Valid ListaPrecoRequest listaPrecoRequest) {
+        return listaPrecoService.adicionarListaPreco(listaPrecoRequest);
     }
 }
