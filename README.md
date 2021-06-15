@@ -6,6 +6,7 @@ Este trabalho consite em uma aplicação Rest que utiliza o swagger como documen
 - Gradle instalado na máquina;
 - Git bash (opcional);
 - Intellij ou outra ide;
+- Ter o o plugin Lombok instalado na sua IDE;
 
 ### Passos para execução do código:
 - Abra o gitbash e digite o comando: git clone https://github.com/CarlosFernandoXavier/trabalho-arquitetura.git
