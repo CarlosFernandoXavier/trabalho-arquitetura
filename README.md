@@ -2,8 +2,8 @@
 Este trabalho consite em uma aplicação Rest que utiliza o swagger como documentação e consumo da API
 
 ### Pré requisitos:
-- Java instalado na máquina;
-- Gradle instalado na máquina;
+- Java 11;
+- Gradle;
 - Git bash (opcional);
 - Intellij ou outra ide;
 - Ter o o plugin Lombok instalado na sua IDE;
