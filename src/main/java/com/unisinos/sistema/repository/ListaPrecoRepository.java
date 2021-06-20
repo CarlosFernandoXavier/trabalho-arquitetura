@@ -5,10 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ListaPrecoRepository extends MongoRepository<ListaPrecoEntity, String> {
+public interface ListaPrecoRepository extends MongoRepository<ListaPrecoEntity, Integer> {
 
     ListaPrecoEntity save(ListaPrecoEntity listaPrecoEntity);
 
-    ListaPrecoEntity getByCodigo(String codigo);
+    ListaPrecoEntity getById(Integer codigo);
 
 }

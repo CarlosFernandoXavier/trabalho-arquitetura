@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 @Builder
 public class ListaPrecoResponse {
-    private String id;
-    private String codigo;
+    private Integer id;
     private String nome;
     private LocalDateTime dataInicial;
     private LocalDateTime dataFinal;
-    List<ItemResponse> itens;
+    private List<ItemResponse> itens;
+    private List<Integer> filiais;
 }

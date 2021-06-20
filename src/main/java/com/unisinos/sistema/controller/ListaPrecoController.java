@@ -1,6 +1,7 @@
 package com.unisinos.sistema.controller;
 
 import com.unisinos.sistema.config.SwaggerConfig;
+import com.unisinos.sistema.exceptionhandler.ErrorMessage;
 import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.service.ListaPrecoService;
@@ -9,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -28,9 +29,12 @@ public class ListaPrecoController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Adicionar lista de preço")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class)})
+            @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class),
+            @ApiResponse(code = 412, message = "PRECONDITION_FAILED", response = ErrorMessage.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ResponseStatusException.class)
+    })
 
-    public ListaPrecoResponse adicionarListaPreco(@RequestBody @NotNull @Valid ListaPrecoRequest listaPrecoRequest) {
-        return listaPrecoService.adicionarListaPreco(listaPrecoRequest);
+    public ListaPrecoResponse addPriceList(@RequestBody @NotNull @Valid ListaPrecoRequest listaPrecoRequest) {
+        return listaPrecoService.addPriceList(listaPrecoRequest);
     }
 }

@@ -17,24 +17,25 @@ import java.util.List;
 @Data
 @Builder
 public class ListaPrecoRequest {
-    @ApiModelProperty(value = "código da lista de preço", example = "895D")
-    @NotEmpty(message = "codigo deve ser preenchido")
-    private String codigo;
 
     @ApiModelProperty(value = "Nome da lista da lista de preço", example = "Torra torra NH")
     @NotEmpty(message = "nome deve ser preenchido")
     private String nome;
 
     @ApiModelProperty(value = "Data inicial da lista de preço")
-    @NotNull
+    @NotNull(message = "dataInicial deve ser preenchida")
     private LocalDateTime dataInicial;
 
     @ApiModelProperty(value = "Data de expiração da lista de preço")
-    @NotNull
+    @NotNull(message = "dataFinal deve ser preenchida")
     private LocalDateTime dataFinal;
 
     @ApiModelProperty(value = "Itens da lista de preço")
-    @NotNull
+    @NotNull(message = "Itens devem ser preenchidos")
     @Valid
-    List<ItemRequest> itens;
+    private List<ItemRequest> itens;
+
+    @ApiModelProperty(value = "Filiais que será aplicado a lista de preço", example = "[701, 204]")
+    @NotNull(message = "Filiais devem ser preenchidas")
+    private List<Integer> filiais;
 }

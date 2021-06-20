@@ -7,15 +7,16 @@ import org.springframework.util.ObjectUtils;
 
 public class ListaPrecoMapper {
 
-    public static ListaPrecoEntity mapToEntity(ListaPrecoRequest listaPrecoRequest) {
+    public static ListaPrecoEntity mapToEntity(ListaPrecoRequest listaPrecoRequest, Integer sequence) {
         if (ObjectUtils.isEmpty(listaPrecoRequest)) return null;
 
         return ListaPrecoEntity.builder()
-                .codigo(listaPrecoRequest.getCodigo())
+                .id(sequence)
                 .nome(listaPrecoRequest.getNome())
                 .dataInicial(listaPrecoRequest.getDataInicial())
                 .dataFinal(listaPrecoRequest.getDataFinal())
                 .itens(ItemMapper.mapToEntityList(listaPrecoRequest.getItens()))
+                .filiais(listaPrecoRequest.getFiliais())
                 .build();
     }
 
@@ -24,10 +25,10 @@ public class ListaPrecoMapper {
 
         return ListaPrecoResponse.builder()
                 .id(listaPrecoEntity.getId())
-                .codigo(listaPrecoEntity.getCodigo())
                 .nome(listaPrecoEntity.getNome())
                 .dataInicial(listaPrecoEntity.getDataInicial())
                 .dataFinal(listaPrecoEntity.getDataFinal())
+                .filiais(listaPrecoEntity.getFiliais())
                 .itens(ItemMapper.mapToResponseList(listaPrecoEntity.getItens()))
                 .build();
     }

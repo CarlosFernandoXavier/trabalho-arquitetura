@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -16,12 +16,12 @@ import java.math.BigDecimal;
 @Builder
 public class ItemRequest {
     @ApiModelProperty(value = "código do item", example = "12356")
-    @NotEmpty(message = "codigo deve ser preenchido")
+    @NotBlank(message = "codigo deve ser preenchido")
     private String codigo;
     @ApiModelProperty(value = "nome do item", example = "Chuteira de couro")
-    @NotEmpty(message = "nome do item deve ser preenchido")
+    @NotBlank(message = "nome do item deve ser preenchido")
     private String nome;
     @ApiModelProperty(value = "preço do item", example = "127.56")
-    @NotNull
+    @NotNull(message = "preço deve ser preenchido")
     private BigDecimal preco;
 }
