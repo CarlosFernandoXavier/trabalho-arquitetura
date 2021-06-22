@@ -49,3 +49,4 @@ public class ListaPrecoController {
         return listaPrecoService.getPriceList(id);
     }
 }
+
