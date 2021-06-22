@@ -5,6 +5,7 @@ import com.unisinos.sistema.model.request.ItemRequest;
 import com.unisinos.sistema.model.response.ItemResponse;
 import org.springframework.util.ObjectUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,12 @@ public class ItemMapper {
 
     private static ItemEntity mapToEntity(ItemRequest itemRequest) {
         if (ObjectUtils.isEmpty(itemRequest)) return null;
+
+//        return ItemEntity.builder()
+//                .codigo(itemRequest.getCodigo())
+//                .nome(itemRequest.getNome())
+//                .preco(itemRequest.getPreco())
+//                .build();
 
         return ItemEntity.builder()
                 .codigo(itemRequest.getCodigo())

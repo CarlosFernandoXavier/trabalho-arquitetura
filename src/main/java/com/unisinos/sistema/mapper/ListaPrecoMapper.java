@@ -5,6 +5,9 @@ import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ListaPrecoMapper {
 
     public static ListaPrecoEntity mapToEntity(ListaPrecoRequest listaPrecoRequest, Integer sequence) {
@@ -32,4 +35,12 @@ public class ListaPrecoMapper {
                 .itens(ItemMapper.mapToResponseList(listaPrecoEntity.getItens()))
                 .build();
     }
+    public static List<ListaPrecoResponse> mapToResponseList(List<ListaPrecoEntity> listaPreco) {
+        if (ObjectUtils.isEmpty(listaPreco)) return List.of();
+
+        return listaPreco.stream()
+                .map(ListaPrecoMapper::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/lista-preco")
@@ -36,5 +37,19 @@ public class ListaPrecoController {
 
     public ListaPrecoResponse addPriceList(@RequestBody @NotNull @Valid ListaPrecoRequest listaPrecoRequest) {
         return listaPrecoService.addPriceList(listaPrecoRequest);
+    }
+
+    @GetMapping("/exibir")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Exibir lista de preço")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class),
+            @ApiResponse(code = 412, message = "PRECONDITION_FAILED", response = ErrorMessage.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ResponseStatusException.class)
+    })
+
+    public List<ListaPrecoResponse> addPriceList(Integer idList) {
+//        return listaPrecoService.addPriceList(listaPrecoRequest);
+        return listaPrecoService.getPriceList(idList);
     }
 }
