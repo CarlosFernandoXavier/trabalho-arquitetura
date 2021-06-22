@@ -5,14 +5,10 @@ import com.unisinos.sistema.exceptionhandler.ErrorMessage;
 import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.service.ListaPrecoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -28,28 +24,28 @@ public class ListaPrecoController {
 
     @PostMapping("/adicinar")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation("Adicionar lista de preço")
+    @ApiOperation(value = "Adicionar lista de preço")
     @ApiResponses({
             @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class),
             @ApiResponse(code = 412, message = "PRECONDITION_FAILED", response = ErrorMessage.class),
-            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ResponseStatusException.class)
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ErrorMessage.class)
     })
 
     public ListaPrecoResponse addPriceList(@RequestBody @NotNull @Valid ListaPrecoRequest listaPrecoRequest) {
         return listaPrecoService.addPriceList(listaPrecoRequest);
     }
 
-    @GetMapping("/exibir")
-    @ResponseStatus(HttpStatus.CREATED)
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Exibir lista de preço")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "CREATED", response = ListaPrecoResponse.class),
-            @ApiResponse(code = 412, message = "PRECONDITION_FAILED", response = ErrorMessage.class),
-            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ResponseStatusException.class)
+            @ApiResponse(code = 200, message = "OK", response = ListaPrecoResponse.class),
+            @ApiResponse(code = 404, message = "NOT_FOUND", response = ErrorMessage.class),
     })
 
-    public List<ListaPrecoResponse> addPriceList(Integer idList) {
-//        return listaPrecoService.addPriceList(listaPrecoRequest);
-        return listaPrecoService.getPriceList(idList);
+    public List<ListaPrecoResponse> getPriceList(
+            @ApiParam(name = "id", value = "Id da lista de preço", example = "4")
+            @RequestParam(required = false) Integer id) {
+        return listaPrecoService.getPriceList(id);
     }
 }

@@ -11,7 +11,8 @@ public interface ListaPrecoRepository extends MongoRepository<ListaPrecoEntity, 
 
     ListaPrecoEntity save(ListaPrecoEntity listaPrecoEntity);
 
-        ListaPrecoEntity getById(Integer codigo);
-        List<ListaPrecoEntity> findAll();
+    ListaPrecoEntity getById(Integer codigo);
+
+    List<ListaPrecoEntity> findAll();
 }
 
