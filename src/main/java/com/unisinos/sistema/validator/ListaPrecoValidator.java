@@ -24,8 +24,9 @@ public class ListaPrecoValidator {
     }
 
     public static void validateSubsidiary(ListaPrecoRequest listaPrecoRequest) {
-        if (ObjectUtils.isEmpty(listaPrecoRequest.getFiliais())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "O campo filiais está vazio");
+        if (ObjectUtils.isEmpty(listaPrecoRequest.getFiliais()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "O campo filiais está vazio");
     }
 
     public static void validateItems(ListaPrecoRequest listaPrecoRequest) {
