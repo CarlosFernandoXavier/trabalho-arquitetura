@@ -15,6 +15,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig {
 
     public static final String LISTA_PRECO_V1 = "listaPreco v1";
+    public static final String RELATORIO_V1 = "relatorio v1";
 
     @Bean
     public Docket api() {
@@ -24,7 +25,8 @@ public class SwaggerConfig {
                 .paths(regex("/.*"))
                 .build()
                 .useDefaultResponseMessages(false)
-                .tags(createTag(LISTA_PRECO_V1, "listaPreco v1"));
+                .tags(createTag(LISTA_PRECO_V1, "listaPreco v1"),
+                        createTag(RELATORIO_V1, "relatorio v1"));
     }
 
     private Tag createTag(String name, String description) {
