@@ -29,9 +29,9 @@ public class RelatorioController {
 
     private RelatorioService relatorioService;
 
-    @GetMapping(value = "/agrupamento-filial", produces = MediaType.APPLICATION_PDF_VALUE)
+    @GetMapping(value = "/estoque", produces = MediaType.APPLICATION_PDF_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Geração do relatório de agrupamento por filial")
+    @ApiOperation("Geração do relatório de estoque por filial")
     public ResponseEntity<Resource> citiesReport() {
 
         try {

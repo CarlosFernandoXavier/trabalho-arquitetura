@@ -22,7 +22,7 @@ public class ListaPrecoController {
 
     ListaPrecoService listaPrecoService;
 
-    @PostMapping("/adicinar")
+    @PostMapping("/adicionar")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Adicionar lista de preço")
     @ApiResponses({
