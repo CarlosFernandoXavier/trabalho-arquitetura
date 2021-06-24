@@ -15,13 +15,13 @@ import java.math.BigDecimal;
 @Data
 @Builder
 public class ItemRequest {
-    @ApiModelProperty(value = "código do item", example = "12356")
+    @ApiModelProperty(value = "código do item", example = "12356", required = true)
     @NotBlank(message = "codigo deve ser preenchido")
     private String codigo;
-    @ApiModelProperty(value = "nome do item", example = "Chuteira de couro")
+    @ApiModelProperty(value = "nome do item", example = "Chuteira de couro", required = true)
     @NotBlank(message = "nome do item deve ser preenchido")
     private String nome;
-    @ApiModelProperty(value = "preço do item", example = "127.56")
+    @ApiModelProperty(value = "preço do item", example = "127.56", required = true)
     @NotNull(message = "preço deve ser preenchido")
     private BigDecimal preco;
 }

@@ -16,6 +16,7 @@ public class SwaggerConfig {
 
     public static final String LISTA_PRECO_V1 = "listaPreco v1";
     public static final String RELATORIO_V1 = "relatorio v1";
+    public static final String PAGAMENTO_V1 = "pagamento v1";
 
     @Bean
     public Docket api() {
@@ -26,7 +27,8 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .tags(createTag(LISTA_PRECO_V1, "listaPreco v1"),
-                        createTag(RELATORIO_V1, "relatorio v1"));
+                        createTag(RELATORIO_V1, "relatorio v1"),
+                        createTag(PAGAMENTO_V1, "pagamento v1"));
     }
 
     private Tag createTag(String name, String description) {
