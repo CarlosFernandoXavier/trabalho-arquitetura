@@ -1,10 +1,12 @@
 package com.unisinos.sistema.service;
 
+import com.unisinos.sistema.entity.ItemEntity;
 import com.unisinos.sistema.entity.ListaPrecoEntity;
 import com.unisinos.sistema.mapper.ItemListaPrecoMapper;
 import com.unisinos.sistema.mapper.ListaPrecoMapper;
 import com.unisinos.sistema.model.request.ItemListaPrecoRequest;
 import com.unisinos.sistema.model.request.ListaPrecoRequest;
+import com.unisinos.sistema.model.request.RemoveItemRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.repository.ListaPrecoRepository;
 import com.unisinos.sistema.validator.ListaPrecoValidator;
@@ -17,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.unisinos.sistema.validator.ItemListaPrecoValidator.isExistingItem;
+import static com.unisinos.sistema.validator.ItemListaPrecoValidator.validateExistingItem;
 
 @Service
 @AllArgsConstructor
@@ -66,5 +70,21 @@ public class ListaPrecoService {
                 String.format("Item com o código %s, já existe na lista %s",
                         itemListaPreco.getCodigo(),
                         listaPreco.getNome()));
+    }
+
+
+    public ListaPrecoResponse removeItem(RemoveItemRequest removeItemRequest) {
+        ListaPrecoEntity listaPreco = findPriceListById(removeItemRequest.getIdListaPreco());
+        removeItemRequest.getIdItens().forEach(idItem -> validateExistingItem(listaPreco.getItens(), idItem));
+
+        listaPreco.setItens(listaPreco.getItens().stream()
+                .filter(itemEntity -> !isPresentItem(itemEntity, removeItemRequest.getIdItens()))
+                .collect(Collectors.toList()));
+
+        return ListaPrecoMapper.mapToResponse(listaPrecoRepository.save(listaPreco));
+    }
+
+    private Boolean isPresentItem(ItemEntity itemEntity, List<String> idItens) {
+        return idItens.stream().anyMatch(id -> id.equals(itemEntity.getCodigo()));
     }
 }

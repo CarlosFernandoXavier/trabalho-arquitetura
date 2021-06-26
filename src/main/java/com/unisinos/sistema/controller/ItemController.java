@@ -3,6 +3,7 @@ package com.unisinos.sistema.controller;
 import com.unisinos.sistema.config.SwaggerConfig;
 import com.unisinos.sistema.exceptionhandler.ErrorMessage;
 import com.unisinos.sistema.model.request.ItemListaPrecoRequest;
+import com.unisinos.sistema.model.request.RemoveItemRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.service.ListaPrecoService;
 import io.swagger.annotations.Api;
@@ -26,7 +27,7 @@ public class ItemController {
 
     @PostMapping("/adicionar")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Adicionar item a lista de preço")
+    @ApiOperation(value = "Adicionar item à lista de preço")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK", response = ListaPrecoResponse.class),
             @ApiResponse(code = 400, message = "BAD_REQUEST", response = ErrorMessage.class),
@@ -34,7 +35,20 @@ public class ItemController {
             @ApiResponse(code = 412, message = "PRECONDITION_FAILED", response = ErrorMessage.class)
     })
 
-    public ListaPrecoResponse addPriceList(@RequestBody @NotNull @Valid ItemListaPrecoRequest itemListaPrecoRequest) {
+    public ListaPrecoResponse addItem(@RequestBody @NotNull @Valid ItemListaPrecoRequest itemListaPrecoRequest) {
         return listaPrecoService.addItem(itemListaPrecoRequest);
+    }
+
+    @DeleteMapping("/remover")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Remover itens da lista de preço")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = ListaPrecoResponse.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST", response = ErrorMessage.class),
+            @ApiResponse(code = 404, message = "NOT_FOUND", response = ErrorMessage.class)
+    })
+
+    public ListaPrecoResponse removeListItem(@NotNull @Valid @RequestBody RemoveItemRequest removeItemRequest) {
+        return listaPrecoService.removeItem(removeItemRequest);
     }
 }
