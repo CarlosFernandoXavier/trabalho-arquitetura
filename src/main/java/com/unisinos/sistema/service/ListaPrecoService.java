@@ -1,6 +1,9 @@
 package com.unisinos.sistema.service;
 
+import com.unisinos.sistema.entity.ListaPrecoEntity;
+import com.unisinos.sistema.mapper.ItemListaPrecoMapper;
 import com.unisinos.sistema.mapper.ListaPrecoMapper;
+import com.unisinos.sistema.model.request.ItemListaPrecoRequest;
 import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.repository.ListaPrecoRepository;
@@ -14,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.unisinos.sistema.validator.ItemListaPrecoValidator.isExistingItem;
 
 @Service
 @AllArgsConstructor
@@ -38,15 +43,28 @@ public class ListaPrecoService {
         if (Objects.isNull(idList)) {
             lista.addAll((ListaPrecoMapper.mapToResponseList(listaPrecoRepository.findAll())));
         } else {
-            lista.add(findPriceListById(idList));
+            lista.add(ListaPrecoMapper.mapToResponse(findPriceListById(idList)));
         }
         return lista;
     }
 
-    public ListaPrecoResponse findPriceListById(Integer idList) {
+    public ListaPrecoEntity findPriceListById(Integer idList) {
         return Optional.ofNullable(listaPrecoRepository.getById(idList))
-                .map(ListaPrecoMapper::mapToResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         String.format("Lista de preço com o id = %d, não existe", idList)));
+    }
+
+    public ListaPrecoResponse addItem(ItemListaPrecoRequest itemListaPreco) {
+        ListaPrecoEntity listaPreco = findPriceListById(itemListaPreco.getIdPriceList());
+
+        if (!isExistingItem(listaPreco.getItens(), itemListaPreco.getCodigo())) {
+            listaPreco.getItens().add(ItemListaPrecoMapper.mapToEntity(itemListaPreco));
+            return ListaPrecoMapper.mapToResponse(listaPrecoRepository.save(listaPreco));
+        }
+
+        throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED,
+                String.format("Item com o código %s, já existe na lista %s",
+                        itemListaPreco.getCodigo(),
+                        listaPreco.getNome()));
     }
 }

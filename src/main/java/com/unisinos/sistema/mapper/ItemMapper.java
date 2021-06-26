@@ -6,13 +6,14 @@ import com.unisinos.sistema.model.request.ItemRequest;
 import com.unisinos.sistema.model.response.ItemResponse;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemMapper {
 
     public static List<ItemEntity> mapToEntityList(List<ItemRequest> itemRequest) {
-        if (ObjectUtils.isEmpty(itemRequest)) return null;
+        if (ObjectUtils.isEmpty(itemRequest)) return Collections.emptyList();
 
         return itemRequest.stream()
                 .map(ItemMapper::mapToEntity)
@@ -30,7 +31,7 @@ public class ItemMapper {
     }
 
     public static List<ItemResponse> mapToResponseList(List<ItemEntity> itemEntities) {
-        if (ObjectUtils.isEmpty(itemEntities)) return null;
+        if (ObjectUtils.isEmpty(itemEntities)) return Collections.emptyList();
 
         return itemEntities.stream()
                 .map(ItemMapper::mapToResponse)
@@ -48,7 +49,7 @@ public class ItemMapper {
     }
 
     public static List<ItemModel> mapToModelList(List<ItemEntity> itemEntities) {
-        if (ObjectUtils.isEmpty(itemEntities)) return null;
+        if (ObjectUtils.isEmpty(itemEntities)) return Collections.emptyList();
 
         return itemEntities.stream()
                 .map(ItemMapper::mapToModel)

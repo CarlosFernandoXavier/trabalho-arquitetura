@@ -42,5 +42,4 @@ public class ListaPrecoMapper {
                 .map(ListaPrecoMapper::mapToResponse)
                 .collect(Collectors.toList());
     }
-
 }
