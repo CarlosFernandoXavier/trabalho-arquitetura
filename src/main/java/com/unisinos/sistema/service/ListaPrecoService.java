@@ -2,9 +2,9 @@ package com.unisinos.sistema.service;
 
 import com.unisinos.sistema.entity.ItemEntity;
 import com.unisinos.sistema.entity.ListaPrecoEntity;
-import com.unisinos.sistema.mapper.ItemListaPrecoMapper;
+import com.unisinos.sistema.mapper.ItemMapper;
 import com.unisinos.sistema.mapper.ListaPrecoMapper;
-import com.unisinos.sistema.model.request.ItemListaPrecoRequest;
+import com.unisinos.sistema.model.request.ItensListaPrecoRequest;
 import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.request.RemoveItemRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
@@ -58,18 +58,27 @@ public class ListaPrecoService {
                         String.format("Lista de preço com o id = %d, não existe", idList)));
     }
 
-    public ListaPrecoResponse addItem(ItemListaPrecoRequest itemListaPreco) {
+    public ListaPrecoResponse addItem(ItensListaPrecoRequest itemListaPreco) {
         ListaPrecoEntity listaPreco = findPriceListById(itemListaPreco.getIdPriceList());
 
-        if (!isExistingItem(listaPreco.getItens(), itemListaPreco.getCodigo())) {
-            listaPreco.getItens().add(ItemListaPrecoMapper.mapToEntity(itemListaPreco));
-            return ListaPrecoMapper.mapToResponse(listaPrecoRepository.save(listaPreco));
-        }
+        itemListaPreco.getItens().forEach(itemRequest -> {
+            validateEqualItem(listaPreco.getItens(), itemRequest.getCodigo(), listaPreco.getNome());
+            listaPreco.getItens().add(ItemMapper.mapToEntity(itemRequest));
+        });
 
-        throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED,
-                String.format("Item com o código %s, já existe na lista %s",
-                        itemListaPreco.getCodigo(),
-                        listaPreco.getNome()));
+        return ListaPrecoMapper.mapToResponse(listaPrecoRepository.save(listaPreco));
+    }
+
+    private void validateEqualItem(List<ItemEntity> itensListaPreco,
+                                   String codigoNovoItem,
+                                   String nomeListaPreco) {
+
+        if (isExistingItem(itensListaPreco, codigoNovoItem)) {
+            throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED,
+                    String.format("Item com o código %s, já existe na lista %s",
+                            codigoNovoItem,
+                            nomeListaPreco));
+        }
     }
 
 

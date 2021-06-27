@@ -20,7 +20,7 @@ public class ItemMapper {
                 .collect(Collectors.toList());
     }
 
-    private static ItemEntity mapToEntity(ItemRequest itemRequest) {
+    public static ItemEntity mapToEntity(ItemRequest itemRequest) {
         if (ObjectUtils.isEmpty(itemRequest)) return null;
 
         return ItemEntity.builder()
