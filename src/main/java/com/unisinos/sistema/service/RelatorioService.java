@@ -9,6 +9,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
+import com.unisinos.sistema.mapper.FilialMapper;
 import com.unisinos.sistema.model.FilialModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +34,7 @@ public class RelatorioService {
 
         try {
 
-            List<FilialModel> filiais = filialService.findAllSubsidiaries();
+            List<FilialModel> filiais = FilialMapper.mapToModelList(filialService.findAllSubsidiaries());
 
             String pasta = "pdf";
             Path path = Paths.get(FileSystemView.getFileSystemView()

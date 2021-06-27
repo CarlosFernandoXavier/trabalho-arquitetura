@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FilialRepository extends MongoRepository<FilialEntity, Integer> {
+    FilialEntity getById(Integer id);
 }
