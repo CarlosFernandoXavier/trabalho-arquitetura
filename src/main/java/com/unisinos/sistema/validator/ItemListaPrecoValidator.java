@@ -1,7 +1,7 @@
 package com.unisinos.sistema.validator;
 
 import com.unisinos.sistema.entity.FilialEntity;
-import com.unisinos.sistema.model.request.ListaPrecoRequest;
+import com.unisinos.sistema.model.request.ItemRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -10,10 +10,9 @@ import java.util.List;
 public class ItemListaPrecoValidator {
 
     public static void validateExistingItem(List<FilialEntity> filiais,
-                                            ListaPrecoRequest listaPrecoRequest) {
+                                            List<ItemRequest> itens) {
 
-        listaPrecoRequest.getItens()
-                .forEach(itemRequest -> validateItemSubisiary(itemRequest.getCodigo(), filiais));
+        itens.forEach(itemRequest -> validateItemSubisiary(itemRequest.getCodigo(), filiais));
     }
 
     private static void validateItemSubisiary(String itemCode, List<FilialEntity> filiais) {

@@ -43,7 +43,7 @@ public class ListaPrecoService {
         listaPrecoRequest.getFiliais()
                 .forEach(idFilial -> listaFiliais.add(filialService.findSubsidiaryById(idFilial)));
 
-        ItemListaPrecoValidator.validateExistingItem(listaFiliais, listaPrecoRequest);
+        ItemListaPrecoValidator.validateExistingItem(listaFiliais, listaPrecoRequest.getItens());
 
         Integer sequence = sequenceService.getSequence("lista_preco_sequence");
         var listaPrecoEntity = ListaPrecoMapper.mapToEntity(listaPrecoRequest, sequence);
@@ -69,6 +69,12 @@ public class ListaPrecoService {
 
     public ListaPrecoResponse addItem(ItensListaPrecoRequest itemListaPreco) {
         ListaPrecoEntity listaPreco = findPriceListById(itemListaPreco.getIdPriceList());
+
+        List<FilialEntity> listaFiliais = new ArrayList<>();
+        listaPreco.getFiliais()
+                .forEach(idFilial -> listaFiliais.add(filialService.findSubsidiaryById(idFilial)));
+
+        ItemListaPrecoValidator.validateExistingItem(listaFiliais, itemListaPreco.getItens());
 
         itemListaPreco.getItens().forEach(itemRequest -> {
             validateEqualItem(listaPreco.getItens(), itemRequest.getCodigo(), listaPreco.getNome());
