@@ -23,6 +23,6 @@ public class FilialEntity {
     @Id
     private Integer id;
     private String nome;
-    private List<ItemEntity> itens;
+    private List<ItemEstoqueEntity> itens;
 
 }

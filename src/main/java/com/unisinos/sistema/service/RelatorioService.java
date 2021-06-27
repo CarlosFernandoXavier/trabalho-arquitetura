@@ -10,7 +10,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.UnitValue;
 import com.unisinos.sistema.model.FilialModel;
-import com.unisinos.sistema.model.ItemModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -53,7 +52,7 @@ public class RelatorioService {
 
             Document documento = new Document(pdfDoc);
 
-            documento.add(createReportTitle("Relatório de agrupamento por filiais"));
+            documento.add(createReportTitle("Relatório de estoque por filial"));
 
             filiais.stream().forEach(filialModel -> documento.add(createTable(filialModel)));
 
@@ -80,46 +79,37 @@ public class RelatorioService {
 
     private Table createTable(FilialModel filialModel) {
 
-        Table tabela = new Table(UnitValue.createPercentArray(new float[]{17, 17, 17}));
+        Table tabela = new Table(UnitValue.createPercentArray(new float[]{17, 17, 17, 17}));
         tabela.setWidth(UnitValue.createPercentValue(100))
                 .setMarginTop(20);
 
-        Cell celula = new Cell(1, 3)
+        Cell celula = new Cell(1, 4)
                 .add(new Paragraph(filialModel.getNome())
                         .setTextAlignment(TextAlignment.CENTER));
 
         tabela.addHeaderCell(celula);
         tabela.addCell(celulaComBorda("Código", TextAlignment.CENTER));
-        tabela.addCell(celulaComBorda("Nome", TextAlignment.CENTER));
-        tabela.addCell(celulaComBorda("Preço", TextAlignment.CENTER));
+        tabela.addCell(celulaComBorda("Descrição", TextAlignment.CENTER));
+        tabela.addCell(celulaComBorda("Fornecedor", TextAlignment.CENTER));
+        tabela.addCell(celulaComBorda("Total", TextAlignment.CENTER));
 
 
-        filialModel.getItens().forEach(itemModel -> {
-            tabela.addCell(celulaComBorda(itemModel.getCodigo(), TextAlignment.CENTER));
-            tabela.addCell(celulaComBorda(itemModel.getNome(), TextAlignment.CENTER));
-            tabela.addCell(celulaComBorda(itemModel.getPreco().toString(), TextAlignment.CENTER));
+        filialModel.getItens().forEach(itemEstoqueModel -> {
+            tabela.addCell(celulaComBorda(itemEstoqueModel.getCodigo(), TextAlignment.CENTER));
+            tabela.addCell(celulaComBorda(itemEstoqueModel.getNome(), TextAlignment.CENTER));
+            tabela.addCell(celulaComBorda(itemEstoqueModel.getFornecedor(), TextAlignment.CENTER));
+            tabela.addCell(celulaComBorda(itemEstoqueModel.getQuantidade().toString(), TextAlignment.CENTER));
         });
-
-
-        BigDecimal total = filialModel.getItens().stream()
-                .map(ItemModel::getPreco)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        tabela.addCell(new Cell(1, 2).setBorderRight(Border.NO_BORDER));
-
-        tabela.addCell(new Cell().setBorderLeft(Border.NO_BORDER)
-                .add(new Paragraph("Total: " + total))
-                .setTextAlignment(TextAlignment.CENTER));
 
         return tabela;
     }
 
     private Table createReportTitle(String title) {
-        Table tabela = new Table(UnitValue.createPercentArray(new float[]{17, 17, 17}));
+        Table tabela = new Table(UnitValue.createPercentArray(new float[]{17, 17, 17, 17}));
         tabela.setWidth(UnitValue.createPercentValue(100))
                 .setMarginTop(20);
 
-        Cell celula = new Cell(1, 3).setBorder(Border.NO_BORDER)
+        Cell celula = new Cell(1, 4).setBorder(Border.NO_BORDER)
                 .add(new Paragraph(title)
                         .setTextAlignment(TextAlignment.CENTER));
         tabela.addCell(celula);

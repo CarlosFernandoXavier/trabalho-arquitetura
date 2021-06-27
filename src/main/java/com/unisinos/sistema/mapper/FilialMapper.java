@@ -23,7 +23,7 @@ public class FilialMapper {
         return FilialModel.builder()
                 .id(filialEntity.getId())
                 .nome(filialEntity.getNome())
-                .itens(ItemMapper.mapToModelList(filialEntity.getItens()))
+                .itens(ItemEstoqueMapper.mapToModelList(filialEntity.getItens()))
                 .build();
     }
 }

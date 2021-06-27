@@ -1,18 +1,17 @@
-package com.unisinos.sistema.model;
+package com.unisinos.sistema.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class FilialModel {
-    private Integer id;
+public class ItemEstoqueEntity {
+    private String codigo;
     private String nome;
-    private List<ItemEstoqueModel> itens;
+    private Integer quantidade;
+    private String fornecedor;
 }

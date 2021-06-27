@@ -1,7 +1,6 @@
 package com.unisinos.sistema.mapper;
 
 import com.unisinos.sistema.entity.ItemEntity;
-import com.unisinos.sistema.model.ItemModel;
 import com.unisinos.sistema.model.request.ItemRequest;
 import com.unisinos.sistema.model.response.ItemResponse;
 import org.springframework.util.ObjectUtils;
@@ -42,24 +41,6 @@ public class ItemMapper {
         if (ObjectUtils.isEmpty(itemEntity)) return null;
 
         return ItemResponse.builder()
-                .codigo(itemEntity.getCodigo())
-                .nome(itemEntity.getNome())
-                .preco(itemEntity.getPreco())
-                .build();
-    }
-
-    public static List<ItemModel> mapToModelList(List<ItemEntity> itemEntities) {
-        if (ObjectUtils.isEmpty(itemEntities)) return Collections.emptyList();
-
-        return itemEntities.stream()
-                .map(ItemMapper::mapToModel)
-                .collect(Collectors.toList());
-    }
-
-    private static ItemModel mapToModel(ItemEntity itemEntity) {
-        if (ObjectUtils.isEmpty(itemEntity)) return null;
-
-        return ItemModel.builder()
                 .codigo(itemEntity.getCodigo())
                 .nome(itemEntity.getNome())
                 .preco(itemEntity.getPreco())
