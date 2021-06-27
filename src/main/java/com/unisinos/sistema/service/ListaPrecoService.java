@@ -1,5 +1,6 @@
 package com.unisinos.sistema.service;
 
+import com.unisinos.sistema.entity.FilialEntity;
 import com.unisinos.sistema.entity.ItemEntity;
 import com.unisinos.sistema.entity.ListaPrecoEntity;
 import com.unisinos.sistema.mapper.ItemMapper;
@@ -9,6 +10,7 @@ import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import com.unisinos.sistema.model.request.RemoveItemRequest;
 import com.unisinos.sistema.model.response.ListaPrecoResponse;
 import com.unisinos.sistema.repository.ListaPrecoRepository;
+import com.unisinos.sistema.validator.ItemListaPrecoValidator;
 import com.unisinos.sistema.validator.ListaPrecoValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,25 +23,32 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.unisinos.sistema.validator.ItemListaPrecoValidator.isExistingItem;
-import static com.unisinos.sistema.validator.ItemListaPrecoValidator.validateExistingItem;
+import static com.unisinos.sistema.validator.ItemValidator.isExistingItem;
+import static com.unisinos.sistema.validator.ItemValidator.validateExistingItem;
 
 @Service
 @AllArgsConstructor
 public class ListaPrecoService {
 
-    ListaPrecoRepository listaPrecoRepository;
-    SequenceService sequenceService;
+    private ListaPrecoRepository listaPrecoRepository;
+    private SequenceService sequenceService;
+    private FilialService filialService;
 
     public ListaPrecoResponse addPriceList(ListaPrecoRequest listaPrecoRequest) {
         ListaPrecoValidator.validatePriceListDate(listaPrecoRequest);
         ListaPrecoValidator.validateSubsidiary(listaPrecoRequest);
         ListaPrecoValidator.validateItems(listaPrecoRequest);
+
+        List<FilialEntity> listaFiliais = new ArrayList<>();
+        listaPrecoRequest.getFiliais()
+                .forEach(idFilial -> listaFiliais.add(filialService.findSubsidiaryById(idFilial)));
+
+        ItemListaPrecoValidator.validateExistingItem(listaFiliais, listaPrecoRequest);
+
         Integer sequence = sequenceService.getSequence("lista_preco_sequence");
         var listaPrecoEntity = ListaPrecoMapper.mapToEntity(listaPrecoRequest, sequence);
 
         return ListaPrecoMapper.mapToResponse(listaPrecoRepository.save(listaPrecoEntity));
-
     }
 
     public List<ListaPrecoResponse> getPriceList(Integer idList) {
@@ -80,7 +89,6 @@ public class ListaPrecoService {
                             nomeListaPreco));
         }
     }
-
 
     public ListaPrecoResponse removeItem(RemoveItemRequest removeItemRequest) {
         ListaPrecoEntity listaPreco = findPriceListById(removeItemRequest.getIdListaPreco());

@@ -1,6 +1,7 @@
 package com.unisinos.sistema.validator;
 
-import com.unisinos.sistema.entity.ItemEntity;
+import com.unisinos.sistema.entity.FilialEntity;
+import com.unisinos.sistema.model.request.ListaPrecoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -8,15 +9,25 @@ import java.util.List;
 
 public class ItemListaPrecoValidator {
 
-    public static Boolean isExistingItem(List<ItemEntity> itemEntities, String itemCode) {
-        return itemEntities.stream()
-                .anyMatch(itemEntity -> itemEntity.getCodigo().equals(itemCode));
+    public static void validateExistingItem(List<FilialEntity> filiais,
+                                            ListaPrecoRequest listaPrecoRequest) {
+
+        listaPrecoRequest.getItens()
+                .forEach(itemRequest -> validateItemSubisiary(itemRequest.getCodigo(), filiais));
     }
 
-    public static void validateExistingItem(List<ItemEntity> itemEntities, String itemCode) {
-         if(!isExistingItem(itemEntities, itemCode)) {
-             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                     String.format("Item com código: %s, não existe na lista de preço", itemCode));
-         }
+    private static void validateItemSubisiary(String itemCode, List<FilialEntity> filiais) {
+        filiais.forEach(filial -> {
+            if (!isExistingItem(filial, itemCode)) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        String.format("Item com código: %s, não existe na filial %s",
+                                itemCode, filial.getNome()));
+            }
+        });
+    }
+
+    private static Boolean isExistingItem(FilialEntity filial, String itemCode) {
+        return filial.getItens().stream()
+                .anyMatch(itemEstoqueEntity -> itemEstoqueEntity.getCodigo().equals(itemCode));
     }
 }
