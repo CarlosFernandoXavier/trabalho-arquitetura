@@ -2,6 +2,7 @@ package com.unisinos.sistema.mapper;
 
 import com.unisinos.sistema.entity.ItemEstoqueEntity;
 import com.unisinos.sistema.model.ItemEstoqueModel;
+import com.unisinos.sistema.model.request.ItemEstoqueRequest;
 import com.unisinos.sistema.model.response.ItemEstoqueResponse;
 import org.springframework.util.ObjectUtils;
 
@@ -46,6 +47,25 @@ public class ItemEstoqueMapper {
                 .nome(itemEstoqueEntity.getNome())
                 .quantidade(itemEstoqueEntity.getQuantidade())
                 .fornecedor(itemEstoqueEntity.getFornecedor())
+                .build();
+    }
+
+    public static List<ItemEstoqueEntity> mapToEntityList(List<ItemEstoqueRequest> itemEstoqueRequests) {
+        if (ObjectUtils.isEmpty(itemEstoqueRequests)) return Collections.emptyList();
+
+        return itemEstoqueRequests.stream()
+                .map(ItemEstoqueMapper::mapToEntity)
+                .collect(Collectors.toList());
+    }
+
+    public static ItemEstoqueEntity mapToEntity(ItemEstoqueRequest itemEstoqueRequest) {
+        if (ObjectUtils.isEmpty(itemEstoqueRequest)) return null;
+
+        return ItemEstoqueEntity.builder()
+                .nome(itemEstoqueRequest.getNome())
+                .quantidade(itemEstoqueRequest.getQuantidade())
+                .codigo(itemEstoqueRequest.getCodigo())
+                .fornecedor(itemEstoqueRequest.getFornecedor())
                 .build();
     }
 }

@@ -2,6 +2,7 @@ package com.unisinos.sistema.mapper;
 
 import com.unisinos.sistema.entity.FilialEntity;
 import com.unisinos.sistema.model.FilialModel;
+import com.unisinos.sistema.model.request.FilialRequest;
 import com.unisinos.sistema.model.response.FilialResponse;
 import org.springframework.util.ObjectUtils;
 
@@ -43,6 +44,16 @@ public class FilialMapper {
                 .id(filialEntity.getId())
                 .nome(filialEntity.getNome())
                 .itens(ItemEstoqueMapper.mapToResponseList(filialEntity.getItens()))
+                .build();
+    }
+
+    public static FilialEntity mapToEntity(FilialRequest filialRequest, Integer id) {
+        if (ObjectUtils.isEmpty(filialRequest)) return null;
+
+        return FilialEntity.builder()
+                .id(id)
+                .nome(filialRequest.getNome())
+                .itens(ItemEstoqueMapper.mapToEntityList(filialRequest.getItens()))
                 .build();
     }
 }
