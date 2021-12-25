@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/v1/item")
-@Api(tags = SwaggerConfig.LISTA_PRECO_V1)
+@Api(tags = SwaggerConfig.ITEM_V1)
 @AllArgsConstructor
 public class ItemController {
 

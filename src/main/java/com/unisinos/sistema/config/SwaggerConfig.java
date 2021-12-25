@@ -15,6 +15,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig {
 
     public static final String LISTA_PRECO_V1 = "listaPreco v1";
+    public static final String ITEM_V1 = "item v1";
     public static final String RELATORIO_V1 = "relatorio v1";
     public static final String PAGAMENTO_V1 = "pagamento v1";
     public static final String FILIAL_V1 = "filial v1";
@@ -28,6 +29,7 @@ public class SwaggerConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .tags(createTag(LISTA_PRECO_V1, "listaPreco v1"),
+                        createTag(ITEM_V1, "item v1"),
                         createTag(RELATORIO_V1, "relatorio v1"),
                         createTag(PAGAMENTO_V1, "pagamento v1"),
                         createTag(FILIAL_V1, "filial v1"));
