@@ -2,7 +2,9 @@ package com.unisinos.sistema.service;
 
 import com.unisinos.sistema.entity.FilialEntity;
 import com.unisinos.sistema.mapper.FilialMapper;
+import com.unisinos.sistema.mapper.ItemEstoqueMapper;
 import com.unisinos.sistema.model.request.FilialRequest;
+import com.unisinos.sistema.model.request.SubsidiaryItemRequest;
 import com.unisinos.sistema.model.response.FilialResponse;
 import com.unisinos.sistema.repository.FilialRepository;
 import lombok.AllArgsConstructor;
@@ -45,5 +47,13 @@ public class FilialService {
     public FilialResponse createSubsidiary(FilialRequest filialRequest) {
         return FilialMapper.mapToResponse(filialRepository.save(FilialMapper
                 .mapToEntity(filialRequest, sequenceService.getSequence("filial_sequence"))));
+    }
+
+    public FilialResponse addItem(SubsidiaryItemRequest subsidiaryItemRequest) {
+        FilialEntity filialEntity = filialRepository.getById(subsidiaryItemRequest.getSubsidiaryId());
+        subsidiaryItemRequest.getItens().forEach(item -> {
+            filialEntity.getItens().add(ItemEstoqueMapper.mapToEntity(item));
+        });
+        return FilialMapper.mapToResponse(filialRepository.save(filialEntity));
     }
 }

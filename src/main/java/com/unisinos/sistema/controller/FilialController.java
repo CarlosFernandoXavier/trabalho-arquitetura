@@ -3,6 +3,7 @@ package com.unisinos.sistema.controller;
 import com.unisinos.sistema.config.SwaggerConfig;
 import com.unisinos.sistema.exceptionhandler.ErrorMessage;
 import com.unisinos.sistema.model.request.FilialRequest;
+import com.unisinos.sistema.model.request.SubsidiaryItemRequest;
 import com.unisinos.sistema.model.response.FilialResponse;
 import com.unisinos.sistema.service.FilialService;
 import io.swagger.annotations.*;
@@ -45,5 +46,15 @@ public class FilialController {
 
     public FilialResponse createSubsidiary(@RequestBody @NotNull @Valid FilialRequest filialRequest) {
         return filialService.createSubsidiary(filialRequest);
+    }
+
+    @PostMapping("item")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation("Adicionar itens à filial")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK", response = FilialResponse.class)
+    })
+    public FilialResponse addItens(@RequestBody @NotNull SubsidiaryItemRequest subsidiaryItemRequest) {
+        return filialService.addItem(subsidiaryItemRequest);
     }
 }
